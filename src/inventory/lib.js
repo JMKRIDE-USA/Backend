@@ -46,6 +46,16 @@ exports.createPart = ({actor, ...partData}) => executeThenLog(
     }
   );
 
+const getCategories = async ({categoryIds}) => {
+  const categories = [];
+  await Promise.all(categoryIds.map(categoryId =>
+    inventoryModel.getCategoryById(categoryId).then(category => {
+      categories.push({sortIndex: category.length, category: category.id})
+    })
+  ))
+  return categories
+}
+
 /* createPartWithCategories
  *  categoryIds - [categoryIds]
  */
@@ -64,9 +74,10 @@ exports.createPartWithCategories = async ({actor, categoryIds, inventoryId, quan
   return await exports.createPart({actor, ...partData})
 }
 
-exports.patchPart = ({actor, partId, ...partData}) =>
+exports.patchPart = ({actor, partId, categoryIds, ...partData}) =>
   executeThenLog(
-    () => inventoryModel.patchPart(partId, partData),
+    () => getCategories({categoryIds})
+      .then(categories => inventoryModel.patchPart(partId, {...partData, categories})),
     {
       action: actions.MODIFY,
       actor: actor,

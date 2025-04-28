@@ -25,6 +25,7 @@ const colors = [ // Order from custom tool
   "Orange",
   "Lavender",
   "Green",
+  "ForestGreen",
   "Marine",
   "Violet",
   "Mint",
@@ -57,13 +58,13 @@ module.exports.getDefaultDefaultCSSetId = () => constantModel.getByName(
 const genAllParts = () => {
   const partTypeToPartColors = {
     "Wheel": colors.filter(
-      color => !(["Brown", "Chrome", "Silver", "Sakura", "Gold"].includes(color))
+      color => !(["Brown", "Chrome", "Silver", "Sakura", "Gold", "ForestGreen"].includes(color))
     ),
     "Truck": colors.filter(
-      color => !(["Brown"].includes(color))
+      color => !(["Brown", "ForestGreen"].includes(color))
     ),
     "Deck": colors.filter(
-      color => !(["Brown"].includes(color))
+      color => !(["Brown", "ForestGreen"].includes(color))
     ),
   }
 
